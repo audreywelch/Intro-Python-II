@@ -14,3 +14,5 @@ class Room(Description):
         self.e_to = None
         self.w_to = None
 
+    def add_item_to_room(self, new_item):
+        self.storage.append(new_item)

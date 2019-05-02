@@ -60,27 +60,35 @@ player = Player("Audrey", room['outside'])
 while True:
 
     print(f'\nYou are in the: {player.current_room}')
-
-    print(f'\nItems in this room: {player.current_room.storage}')
+    print(f'\nItems in this room: {player.current_room.storage}\n')
 
     # * Waits for user input and decides what to do.
-    cmd = input("Where do you want to go? -> ")
+    raw_input = input("Where do you want to go? -> ")
+    cmd = raw_input.split()
+    print(cmd)
 
-    # If the user enters a cardinal direction, attempt to move to the room there.
-    # N S E W Q
-    if cmd in directions:
-        new_room = get_room(cmd, player.current_room)
-        if new_room is not None:
-            player.current_room = new_room
+    # If user enters ONE word
+    ## If the user enters a cardinal direction, attempt to move to the room there.
+    if len(cmd) < 2:   
+        if cmd[0] in directions:
+            new_room = get_room(cmd[0], player.current_room)
+            if new_room is not None:
+                player.current_room = new_room
+            else:
+                print("You can't move any farther in that direction.")
+    
+        elif cmd == 'q':
+            print("Goodbye!")
+            break
+    
         else:
-            print("You can't move any farther in that direction.")
-    
-    elif cmd == 'q':
-        print("Goodbye!")
-        break
-    
-    else:
-        print("Please enter a valid command. Choose 'n' to go north, 's' to go south, 'e' to go east, 'w' to go west, or 'q' to quit.")
+            print("Please enter a key to continue...\n [n]orth\n [s]outh \n [e]ast \n [w]est \n or [q]uit")
+
+    # If user enters TWO words
+    elif len(cmd) == 2:
+
+        # cmd[0] // Action Verb
+        # cmd[1] // Item
 
     # if cmd == 'n':
     #     if player.current_room.n_to is not None:
