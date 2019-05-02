@@ -35,7 +35,7 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
-# Helper Function that turns the string input into a class property
+# Helper functions that turns the string input into a class property
 def get_room(cmd, current_room):
     if cmd == 'n':
         return current_room.n_to
@@ -46,8 +46,13 @@ def get_room(cmd, current_room):
     if cmd == 'w':
         return current_room.w_to
 
+# def get_action(cmd, )
+
 ## Valid Directions
 directions = ['n', 's', 'e', 'w']
+
+## Valid Verb Commands
+actions = ['get', 'drop']
 
 #
 # Main
@@ -86,9 +91,27 @@ while True:
 
     # If user enters TWO words
     elif len(cmd) == 2:
-
         # cmd[0] // Action Verb
         # cmd[1] // Item
+
+        # If user wants to GET an item...
+        if cmd[0] == 'get':
+
+            # if the current room has the item...
+            if cmd[0] in player.current_room.storage:
+                # remove it from the room's contents...
+                player.current_room.storage.remove(cmd[0])
+                # and add it to the player's contents
+                player.storage.append(cmd[0])
+            else:
+                print(f'Sorry, there is no {cmd[1]} in this room.')
+
+        ## elif cmd[0] == 'drop':
+
+        else:
+            print("Invalid input.")
+
+       
 
     # if cmd == 'n':
     #     if player.current_room.n_to is not None:
