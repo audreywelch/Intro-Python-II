@@ -98,15 +98,24 @@ while True:
         if cmd[0] == 'get':
 
             # if the current room has the item...
-            if cmd[0] in player.current_room.storage:
+            if cmd[1] in player.current_room.storage:
                 # remove it from the room's contents...
-                player.current_room.storage.remove(cmd[0])
+                player.current_room.storage.remove(cmd[1])
                 # and add it to the player's contents
-                player.storage.append(cmd[0])
+                player.storage.append(cmd[1])
             else:
                 print(f'Sorry, there is no {cmd[1]} in this room.')
 
-        ## elif cmd[0] == 'drop':
+        elif cmd[0] == 'drop':
+
+            # if the player has the item...
+            if cmd[1] in player.storage:
+                #remove it from the player's contents...
+                player.storage.remove(cmd[1])
+                # and add it to the room's contents
+                player.current_room.storage.append(cmd[1])
+            else:
+                print(f'Sorry, you don\'t have a {cmd[1]}.')
 
         else:
             print("Invalid input.")
