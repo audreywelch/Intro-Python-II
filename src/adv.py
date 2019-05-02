@@ -40,15 +40,15 @@ room['treasure'].s_to = room['narrow']
 
 # Make a new player object that is currently in the 'outside' room.
 player = Player("Player", room['outside'])
-print(room['outside'].name)
+
+# Prints the current room name
+print(f"You are in the: {player.current_room.name}")
+
+# Prints the current description
+print(player.current_room.description)
 
 # Write a loop that:
 while True:
-    # Prints the current room name
-    print(f"You are in the: {player.current_room.name}")
-
-    # Prints the current description
-    print(player.current_room.description)
 
     # * Waits for user input and decides what to do.
     cmd = input("Where do you want to go? -> ")
@@ -58,15 +58,46 @@ while True:
     if cmd == 'n':
         if player.current_room.n_to is not None:
             player.current_room = player.current_room.n_to
+
+            # Prints the current room name
+            print(f"You are in the: {player.current_room.name}")
+            # Prints the current description
+            print(player.current_room.description)
+        else:
+            print("Please enter a valid command. Choose 'n' to go north, 's' to go south, 'e' to go east, 'w' to go west, or 'q' to quit.")
+
     elif cmd == 's':
-        if player.room.s_to is not None:
-            player.room = player.room.s_to
+        if player.current_room.s_to is not None:
+            player.current_room = player.current_room.s_to
+
+            # Prints the current room name
+            print(f"You are in the: {player.current_room.name}")
+            # Prints the current description
+            print(player.current_room.description)
+        else:
+            print("Please enter a valid command. Choose 'n' to go north, 's' to go south, 'e' to go east, 'w' to go west, or 'q' to quit.")
+
     elif cmd == 'e':
-        if player.room.e_to is not None:
-            player.room = player.room.e_to
+        if player.current_room.e_to is not None:
+            player.current_room = player.current_room.e_to
+
+            # Prints the current room name
+            print(f"You are in the: {player.current_room.name}")
+            # Prints the current description
+            print(player.current_room.description)
+        else:
+            print("Please enter a valid command. Choose 'n' to go north, 's' to go south, 'e' to go east, 'w' to go west, or 'q' to quit.")
+
     elif cmd == 'w':
-        if player.room.w_to is not None:
-            player.room = player.room.w_to
+        if player.current_room.w_to is not None:
+            player.current_room = player.current_room.w_to
+
+            # Prints the current room name
+            print(f"You are in the: {player.current_room.name}")
+            # Prints the current description
+            print(player.current_room.description)
+        else:
+            print("Please enter a valid command. Choose 'n' to go north, 's' to go south, 'e' to go east, 'w' to go west, or 'q' to quit.")
 
     # If the user enters "q", quit the game.
     elif cmd == 'q':
