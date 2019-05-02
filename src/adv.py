@@ -9,7 +9,7 @@ room = {
                      "North of you, the cave mount beckons"),
 
     'foyer':    Room("Foyer", """Dim light filters in from the south.
-    Dusty passages run north and east."""),
+Dusty passages run north and east."""),
 
     'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
 into the darkness. Ahead to the north, a light flickers in
@@ -60,6 +60,8 @@ player = Player("Audrey", room['outside'])
 while True:
 
     print(f'\nYou are in the: {player.current_room}')
+
+    print(f'\nItems in this room: {player.current_room.storage}')
 
     # * Waits for user input and decides what to do.
     cmd = input("Where do you want to go? -> ")
