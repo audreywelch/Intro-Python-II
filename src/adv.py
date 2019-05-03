@@ -25,17 +25,18 @@ The only exit is back the way you came. Good luck."""),
 }
 
 item_strings = [
-['Ektorp-Sofa', 'This couch would really seal your committment to that quintessential Scandinavian aesthetic.\n$379'],
-['Lack-Side-Table', 'Yep, you could score a side table for less than you spent on lunch yesterday.\n$7.99'],
-['Rens-Sheepskin-Rug', 'In case you were wondering whether sheepskin rugs are still trending - the answer is yes.\n$29.99'],
-['Ingabritta-Throw', 'If that doesn\'t scream pure hygge, I don\'t know what does!\n$24.99'],
-['Färgrik-Mug', 'A 99-cent mug doesn\'t need much of an explanation. It holds coffee. It costs a buck.\n$0.99'],
-['Kryddnejlika', 'Hmmm, nope, we actually don\'t know what that means either.\n$5.99'],
-['Free-Snowman', 'Some assembly required 🤷‍♀️']
+['Ektorp-Sofa', 'This couch would really seal your committment to that quintessential Scandinavian aesthetic.\n$379\n'],
+['Lack-Side-Table', 'Yep, you could score a side table for less than you spent on lunch yesterday.\n$7.99\n'],
+['Rens-Sheepskin-Rug', 'In case you were wondering whether sheepskin rugs are still trending - the answer is yes.\n$29.99\n'],
+['Ingabritta-Throw', 'If that doesn\'t scream pure hygge, I don\'t know what does!\n$24.99\n'],
+['Färgrik-Mug', 'A 99-cent mug doesn\'t need much of an explanation. It holds coffee. It costs a buck.\n$0.99\n'],
+['Kryddnejlika', 'Hmmm, nope, we actually don\'t know what that means either.\n$5.99\n'],
+['Free-Snowman', 'Some assembly required 🤷‍♀️\n'],
+['Hungry-Belly', 'Vi är ledsna.\n$Current Shopping Cart Total\n'],
 ]
 
 
-# items = [Item(item[0], item[1]) for item in item_strings]
+items = [Item(item[0], item[1]) for item in item_strings]
 
 # print(items[0].name)
 # print(items[0].description)
@@ -44,11 +45,12 @@ item_strings = [
 
 
 #Assign items to rooms
-room['foyer'].add_item_to_room(Item('Ektorp-Sofa', 'This couch would really seal your committment to that quintessential Scandinavian aesthetic.\n$379'))
+#room['foyer'].add_item_to_room(Item('Ektorp-Sofa', 'This couch would really seal your committment to that quintessential Scandinavian aesthetic.\n$379'))
 #room['foyer'].add_item_to_room(items[1])
-# room['overlook'].storage = items[2:5]
-# room['narrow'].storage = items[5]
-# room['treasure'].storage = items[6]
+room['foyer'].storage = items[0:2]
+room['overlook'].storage = items[2:4]
+room['narrow'].storage = items[4:6]
+room['treasure'].storage = items[6:]
 
 
 # Link rooms together
@@ -126,6 +128,13 @@ while True:
         # If user wants to GET an item...
         if cmd[0] == 'get':
             # if the current room has the item...
+            # if len(player.current_room.storage) < 2:
+            #     one_item = player.current_room.storage[0]
+            #     if one_item.name == cmd[1]:
+            #         player.current_room.storage.remove(one_item)
+            #         player.shopping_cart.append(one_item)
+            #         one_item.on_take()
+                    
             for each_item in player.current_room.storage:
                 if each_item.name == cmd[1]:
                     # remove it from the room's storage...
@@ -146,7 +155,8 @@ while True:
                     #remove it from the player's shopping cart...
                     player.shopping_cart.remove(each_item)
                     # and add it to the room's contents
-                    player.current_room.storage.append(each_item)
+                    player.current_room.add_item_to_room(each_item)
+                    #player.current_room.storage.append(each_item)
 
                     # tell the user they no longer have the item
                     each_item.on_drop()
