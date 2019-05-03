@@ -9,17 +9,20 @@ room = {
     'outside':  Room("Outside Mysterious Entrance",
                      "North of you, the yellow & blue shimmer beckons"),
 
-    'foyer':    Room("IKEA Foyer!! Welcome!", """Dim light filters in from the south.
+    'foyer':    Room("IKEA Foyer!! Welcome!", """Big furniture items surround you, as well as young, eager couples
+testing out each plush cushion and mock living room. Dim light filters in from the south.
 Blaring white passages run north and east."""),
 
-    'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
-into the darkness. Ahead to the north, a light flickers in
-the distance, but there is no way across the chasm."""),
+    'overlook': Room("Grand Overlook", """You've made it through the Cozy Collectables Aisle
+and a steep cliff appears before you, looking down over the rotunda you see all the floors below,
+falling into the darkness. Ahead to the north, a light flickers in the distance,
+but there is no way across the chasm."""),
 
-    'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
-to north. The smell of gold permeates the air."""),
+    'narrow':   Room("Narrow Passage", """The narrow passage of endless knick-knacks bends here from west
+to north. Pots & pans, spatulas, tea lights, cheap plants that will surely die soon.
+The smell of something delicious permeates the air. What could it be?"""),
 
-    'treasure': Room("Treasure Chamber AKA Cafeteria", """You've found the long-lost treasure chamber of juicy swedish meatballs and tart lingonberry sauce!
+    'treasure': Room("Treasure Chamber AKA Cafeteria !!", """You've found the long-lost treasure chamber of juicy swedish meatballs and tart lingonberry sauce!
 Sadly, all remaining swedish meatballs have already been devoured by earlier adventurers.
 The only exit is back the way you came. Good luck."""),
 }
@@ -94,7 +97,7 @@ player = Player("Audrey", room['outside'])
 while True:
 
     print(f'\nYou are in the: {player.current_room}')
-    print(f'\nItems in this room:\n{player.current_room.storage}\n')
+    print(f'\nItems in this aisle:\n{player.current_room.storage}\n')
 
     # * Waits for user input and decides what to do.
     raw_input = input("-> ")
@@ -145,7 +148,7 @@ while True:
                     # tell user they now have the item
                     each_item.on_take()
                 else:
-                    print(f'Sorry, there is no {cmd[1]} in this room.')
+                    print(f'Sorry, there is no {cmd[1]} in this aisle.')
 
         elif cmd[0] == 'drop':
 
