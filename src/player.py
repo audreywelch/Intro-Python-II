@@ -5,8 +5,8 @@ from lib import NameStorage
 
 class Player(NameStorage):
 
-    def __init__(self, name, current_room, storage = []):
-        super().__init__(name, storage = storage)
+    def __init__(self, name, current_room, shopping_cart = []):
+        super().__init__(name)
+        #self.name = name
         self.current_room = current_room
-        # self.name = name
-        # self.item_bag = []
+        self.shopping_cart = shopping_cart

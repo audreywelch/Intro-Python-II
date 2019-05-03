@@ -9,7 +9,7 @@ room = {
     'outside':  Room("Outside Mysterious Entrance",
                      "North of you, the yellow & blue shimmer beckons"),
 
-    'foyer':    Room("IKEA Foyer", """Dim light filters in from the south.
+    'foyer':    Room("IKEA Foyer!! Welcome!", """Dim light filters in from the south.
 Blaring white passages run north and east."""),
 
     'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
@@ -19,28 +19,36 @@ the distance, but there is no way across the chasm."""),
     'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
 to north. The smell of gold permeates the air."""),
 
-    'cafeteria': Room("Treasure Chamber AKA Cafeteria", """You've found the long-lost treasure chamber
-# of juicy swedish meatballs and tart lingonberry sauce! Sadly, all remaining swedish meatballs have
-# already been devoured by earlier adventurers. The only exit is back the way you came. Good luck."""),
+    'treasure': Room("Treasure Chamber AKA Cafeteria", """You've found the long-lost treasure chamber of juicy swedish meatballs and tart lingonberry sauce!
+Sadly, all remaining swedish meatballs have already been devoured by earlier adventurers.
+The only exit is back the way you came. Good luck."""),
 }
 
 item_strings = [
-['\nEktorp-Sofa', 'This couch really seals your committment to that quintessential Scandinavian aesthetic.\n$379'],
-['\nLack-Side-Table', 'Yep, you just scored a side table for less than you spent on lunch yesterday. Nice.\n$7.99'],
-['\nRens-Sheepskin-Rug', 'In case you were wondering whether sheepskin rugs are still trending - the answer is yes.\n$29.99'],
-['\nIngabritta-Throw', 'If that doesn\'t scream pure hygge, I don\'t know what does!\n$24.99'],
-['\nFärgrik-Mug', 'A 99-cent mug doesn\'t need much of an explanation. It holds coffee. It costs a buck.\n$0.99'],
-['\nKryddnejlika', 'Hmmm, nope, we don\'t know what that is either.\n$5.99'],
-['\nFree-Snowman', 'Some assembly required 🤷‍♀️']
+['Ektorp-Sofa', 'This couch would really seal your committment to that quintessential Scandinavian aesthetic.\n$379'],
+['Lack-Side-Table', 'Yep, you could score a side table for less than you spent on lunch yesterday.\n$7.99'],
+['Rens-Sheepskin-Rug', 'In case you were wondering whether sheepskin rugs are still trending - the answer is yes.\n$29.99'],
+['Ingabritta-Throw', 'If that doesn\'t scream pure hygge, I don\'t know what does!\n$24.99'],
+['Färgrik-Mug', 'A 99-cent mug doesn\'t need much of an explanation. It holds coffee. It costs a buck.\n$0.99'],
+['Kryddnejlika', 'Hmmm, nope, we actually don\'t know what that means either.\n$5.99'],
+['Free-Snowman', 'Some assembly required 🤷‍♀️']
 ]
 
-items = [Item(item[0], item[1]) for item in item_strings]
-print(items)
 
-room['foyer'].storage = items[0:2]
-room['overlook'].storage = items[2:5]
-room['narrow'].storage = items[5]
-room['treasure'].storage = items[6]
+# items = [Item(item[0], item[1]) for item in item_strings]
+
+# print(items[0].name)
+# print(items[0].description)
+
+#room['foyer'].storage.append(Item('Ektorp-Sofa', 'This couch would really seal your committment to that quintessential Scandinavian aesthetic.\n$379'))
+
+
+#Assign items to rooms
+room['foyer'].add_item_to_room(Item('Ektorp-Sofa', 'This couch would really seal your committment to that quintessential Scandinavian aesthetic.\n$379'))
+#room['foyer'].add_item_to_room(items[1])
+# room['overlook'].storage = items[2:5]
+# room['narrow'].storage = items[5]
+# room['treasure'].storage = items[6]
 
 
 # Link rooms together
@@ -73,9 +81,6 @@ directions = ['n', 's', 'e', 'w']
 ## Valid Verb Commands
 actions = ['get', 'drop']
 
-
-
-
 #
 # Main
 #
@@ -87,10 +92,10 @@ player = Player("Audrey", room['outside'])
 while True:
 
     print(f'\nYou are in the: {player.current_room}')
-    print(f'\nItems in this room: {player.current_room.storage}\n')
+    print(f'\nItems in this room:\n{player.current_room.storage}\n')
 
     # * Waits for user input and decides what to do.
-    raw_input = input("Where do you want to go? -> ")
+    raw_input = input("-> ")
     cmd = raw_input.split()
 
     # If user enters ONE word
@@ -104,7 +109,7 @@ while True:
                 print("You can't move any farther in that direction - you must stick to the maze- ahem, I mean the path.")
     
         elif cmd == 'i' or 'inventory':
-            print(f'My shopping cart: {player.storage}')
+            print(f'My shopping cart: {player.shopping_cart}')
         
         elif cmd == 'q':
             print("Goodbye!")
@@ -120,29 +125,33 @@ while True:
 
         # If user wants to GET an item...
         if cmd[0] == 'get':
-
             # if the current room has the item...
-            if cmd[1] in player.current_room.storage:
-                # remove it from the room's contents...
-                player.current_room.storage.remove(cmd[1])
-                # and add it to the player's contents
-                player.storage.append(cmd[1])
+            for each_item in player.current_room.storage:
+                if each_item.name == cmd[1]:
+                    # remove it from the room's storage...
+                    player.current_room.storage.remove(each_item)
+                    # and add it to the player's shopping cart
+                    player.shopping_cart.append(each_item)
 
-                # tell user they now have the item
-
-            else:
-                print(f'Sorry, there is no {cmd[1]} in this room.')
+                    # tell user they now have the item
+                    each_item.on_take()
+                else:
+                    print(f'Sorry, there is no {cmd[1]} in this room.')
 
         elif cmd[0] == 'drop':
 
             # if the player has the item...
-            if cmd[1] in player.storage:
-                #remove it from the player's contents...
-                player.storage.remove(cmd[1])
-                # and add it to the room's contents
-                player.current_room.storage.append(cmd[1])
-            else:
-                print(f'Sorry, you don\'t have a {cmd[1]}.')
+            for each_item in player.shopping_cart:
+                if each_item.name == cmd[1]:
+                    #remove it from the player's shopping cart...
+                    player.shopping_cart.remove(each_item)
+                    # and add it to the room's contents
+                    player.current_room.storage.append(each_item)
+
+                    # tell the user they no longer have the item
+                    each_item.on_drop()
+                else:
+                    print(f'Sorry, you don\'t have a {cmd[1]}.')
 
         else:
             print("Invalid input.")
